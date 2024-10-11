@@ -58,7 +58,7 @@ function App() {
 
   const updatePlayerStats = async (match: Match) => {
     const updatedPlayers = players.map((player) => {
-      let updatedPlayer = { ...player };
+      const updatedPlayer = { ...player };
       if (match.team1.includes(player.id) || match.team2.includes(player.id)) {
         updatedPlayer.matchesPlayed++;
         if (match.team1.includes(player.id)) {
@@ -127,107 +127,113 @@ function App() {
         {/* Onglets */}
         <div className="mb-4 flex space-x-4">
           <button
-            onClick={() => setActiveTab('match')}
-            className={`px-4 py-2 rounded-md ${
-              activeTab === 'match' ? 'bg-green-700 text-white' : 'bg-gray-200'
-            }`}
+              onClick={() => setActiveTab('match')}
+              className={`px-4 py-2 rounded-md ${
+                  activeTab === 'match' ? 'bg-green-700 text-white' : 'bg-gray-200'
+              }`}
           >
             Add a match
           </button>
           <button
-            onClick={() => setActiveTab('ranking')}
-            className={`px-4 py-2 rounded-md ${
-              activeTab === 'ranking'
-                ? 'bg-green-700 text-white'
-                : 'bg-gray-200'
-            }`}
+              onClick={() => setActiveTab('ranking')}
+              className={`px-4 py-2 rounded-md ${
+                  activeTab === 'ranking'
+                      ? 'bg-green-700 text-white'
+                      : 'bg-gray-200'
+              }`}
           >
             Leaderboard
           </button>
         </div>
         {activeTab === 'match' ? (
-          <>
-            <PlayerSelection players={players} onAddPlayer={addPlayer} />
-            <ScoreInput players={players} onAddMatch={addMatch} />
-            <div className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">Match history</h2>
-              <ul className="bg-white rounded-md shadow-md p-4">
-                <div className="flex flex-col space-y-4">
-                  {matches.map((match) => {
-                    // Déterminer l'équipe gagnante
-                    const isTeam1Winner = match.score1 > match.score2;
-                    const isTeam2Winner = match.score2 > match.score1;
+            <>
+              <PlayerSelection players={players} onAddPlayer={addPlayer}/>
+              <ScoreInput players={players} onAddMatch={addMatch}/>
+              <div className="mt-8">
+                <h2 className="text-2xl font-semibold mb-4">Match history</h2>
+                <ul className="bg-white rounded-md shadow-md p-4">
+                  <div className="flex flex-col space-y-4">
+                    {matches.map((match) => {
+                      // Déterminer l'équipe gagnante
+                      const isTeam1Winner = match.score1 > match.score2;
+                      const isTeam2Winner = match.score2 > match.score1;
 
-                    return (
-                      <div
-                        key={match.id}
-                        className="bg-green-50 border border-green-700 px-4 rounded-lg flex items-center justify-between"
-                      >
-                        <div className="flex items-center" style={{ flex: 1 }}>
-                          {match.team1.map((playerId, index) => {
-                            const player = players.find(
-                              (p) => p.id === playerId
-                            );
-                            return (
-                              <span
-                                key={playerId}
-                                className={`max-w-[100px] overflow-hidden text-ellipsis ${
-                                  index > 0 ? 'ml-2' : ''
-                                }`}
-                              >
+                      return (
+                          <div
+                              key={match.id}
+                              className="bg-green-50 border border-green-700 px-4 rounded-lg flex items-center justify-between"
+                          >
+                            <div className="flex items-center" style={{flex: 1}}>
+                              {match.team1.map((playerId, index) => {
+                                const player = players.find(
+                                    (p) => p.id === playerId
+                                );
+                                return (
+                                    <span
+                                        key={playerId}
+                                        className={`max-w-[100px] overflow-hidden text-ellipsis ${
+                                            index > 0 ? 'ml-2' : ''
+                                        }`}
+                                    >
                                 {player?.name}
                               </span>
-                            );
-                          })}
-                          {isTeam1Winner && (
-                            <span className="text-red-600 text-2xl mx-2">
+                                );
+                              })}
+                              {isTeam1Winner && (
+                                  <span className="text-red-600 text-2xl mx-2">
                               🏆
                             </span>
-                          )}{' '}
-                          {/* Emoji pour l'équipe 1 */}
-                        </div>
-                        <div
-                          className="text-red-600 text-2xl mx-4"
-                          style={{ width: '100px', textAlign: 'center' }}
-                        >
-                          {`${match.score1} - ${match.score2}`}
-                        </div>
-                        <div
-                          className="flex items-center justify-end"
-                          style={{ flex: 1 }}
-                        >
-                          {isTeam2Winner && (
-                            <span className="text-red-600 text-2xl mx-2">
+                              )}{' '}
+                              {/* Emoji pour l'équipe 1 */}
+                            </div>
+                            <div
+                                className="text-red-600 text-2xl mx-4"
+                                style={{width: '100px', textAlign: 'center'}}
+                            >
+                              {`${match.score1} - ${match.score2}`}
+                            </div>
+                            <div
+                                className="flex items-center justify-end"
+                                style={{flex: 1}}
+                            >
+                              {isTeam2Winner && (
+                                  <span className="text-red-600 text-2xl mx-2">
                               🏆
                             </span>
-                          )}{' '}
-                          {/* Emoji pour l'équipe 2 */}
-                          {match.team2.map((playerId, index) => {
-                            const player = players.find(
-                              (p) => p.id === playerId
-                            );
-                            return (
-                              <span
-                                key={playerId}
-                                className={`max-w-[100px] overflow-hidden text-ellipsis ${
-                                  index > 0 ? 'ml-2' : ''
-                                }`}
-                              >
+                              )}{' '}
+                              {/* Emoji pour l'équipe 2 */}
+                              {match.team2.map((playerId, index) => {
+                                const player = players.find(
+                                    (p) => p.id === playerId
+                                );
+                                return (
+                                    <span
+                                        key={playerId}
+                                        className={`max-w-[100px] overflow-hidden text-ellipsis ${
+                                            index > 0 ? 'ml-2' : ''
+                                        }`}
+                                    >
                                 {player?.name}
                               </span>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </ul>
-            </div>
-          </>
+                                );
+                              })}
+                            </div>
+                          </div>
+                      );
+                    })}
+                  </div>
+                </ul>
+              </div>
+            </>
         ) : (
-          <PlayerRanking players={players} />
+            <PlayerRanking players={players}/>
         )}
+        <button
+            onClick={resetData}
+            className="mt-8 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+        >
+          Reset All Data
+        </button>
       </div>
     </div>
   );
