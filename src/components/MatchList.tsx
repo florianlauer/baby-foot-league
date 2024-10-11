@@ -1,6 +1,7 @@
 import { Trash } from "lucide-react";
 import { Match, Player } from "../types.ts";
 import { DateTime } from "luxon";
+import { useAuth } from "../useAuth.ts";
 
 const MatchList = ({
   players,
@@ -11,6 +12,7 @@ const MatchList = ({
   matches: Match[];
   onDeleteMatch: (matchId: number) => void;
 }) => {
+  const { userRole } = useAuth();
   // Grouper les matchs par date
   const matchesByDate = matches.reduce(
     (acc: { [key: string]: Match[] }, match) => {
@@ -92,12 +94,14 @@ const MatchList = ({
                         );
                       })}
                     </div>
-                    <button
-                      className="ml-4 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
-                      onClick={() => onDeleteMatch(match.id)}
-                    >
-                      <Trash size={16} />
-                    </button>
+                    {userRole?.isAdmin ? (
+                      <button
+                        className="ml-4 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+                        onClick={() => onDeleteMatch(match.id)}
+                      >
+                        <Trash size={16} />
+                      </button>
+                    ) : null}
                   </div>
                 );
               })}
