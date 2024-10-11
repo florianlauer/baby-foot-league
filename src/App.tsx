@@ -23,6 +23,7 @@ function App() {
 
   async function fetchMatches() {
     const { data, error } = await supabase.from("matches").select("*");
+    console.log(data);
     if (error) console.error("Error fetching matches:", error);
     else setMatches(data || []);
   }
@@ -128,7 +129,7 @@ function App() {
     <div className="min-h-screen bg-gray-100 p-8">
       <header className="text-center mb-8">
         <h1 className="text-4xl font-bold text-green-700 flex items-center justify-center">
-          <Trophy className="mr-2" /> Sencrop Baby league
+          <Trophy className="mr-2" /> Baby league
         </h1>
       </header>
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
@@ -160,16 +161,11 @@ function App() {
             onAddMatch={addMatch}
             onDeleteMatch={deleteMatch}
             onAddPlayer={addPlayer}
+            onResetData={resetData}
           />
         ) : (
           <PlayerRanking players={players} />
         )}
-        <button
-          onClick={resetData}
-          className="mt-8 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-        >
-          Reset All Data
-        </button>
       </div>
     </div>
   );

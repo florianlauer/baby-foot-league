@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Player, Match } from '../types';
+import React, { useState } from "react";
+import { Player, Match } from "../types";
 
 interface ScoreInputProps {
   players: Player[];
@@ -7,20 +7,20 @@ interface ScoreInputProps {
 }
 
 const ScoreInput: React.FC<ScoreInputProps> = ({ players, onAddMatch }) => {
-  const [team1Player1, setTeam1Player1] = useState<number | ''>('');
-  const [team1Player2, setTeam1Player2] = useState<number | ''>('');
-  const [team2Player1, setTeam2Player1] = useState<number | ''>('');
-  const [team2Player2, setTeam2Player2] = useState<number | ''>('');
-  const [score1, setScore1] = useState('');
-  const [score2, setScore2] = useState('');
+  const [team1Player1, setTeam1Player1] = useState<number | "">("");
+  const [team1Player2, setTeam1Player2] = useState<number | "">("");
+  const [team2Player1, setTeam2Player1] = useState<number | "">("");
+  const [team2Player2, setTeam2Player2] = useState<number | "">("");
+  const [score1, setScore1] = useState("");
+  const [score2, setScore2] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (
-      team1Player1 !== '' &&
-      team1Player2 !== '' &&
-      team2Player1 !== '' &&
-      team2Player2 !== ''
+      team1Player1 !== "" &&
+      team1Player2 !== "" &&
+      team2Player1 !== "" &&
+      team2Player2 !== ""
     ) {
       const newMatch: Match = {
         id: Date.now(),
@@ -30,14 +30,14 @@ const ScoreInput: React.FC<ScoreInputProps> = ({ players, onAddMatch }) => {
         score2: parseInt(score2) || 0,
       };
       onAddMatch(newMatch);
-      setTeam1Player1('');
-      setTeam1Player2('');
-      setTeam2Player1('');
-      setTeam2Player2('');
-      setScore1('');
-      setScore2('');
+      setTeam1Player1("");
+      setTeam1Player2("");
+      setTeam2Player1("");
+      setTeam2Player2("");
+      setScore1("");
+      setScore2("");
     } else {
-      alert('Please select 2 players for each team');
+      alert("Please select 2 players for each team");
     }
   };
 
@@ -136,14 +136,14 @@ const ScoreInput: React.FC<ScoreInputProps> = ({ players, onAddMatch }) => {
                 <button
                   key={i}
                   type="button"
-                  onClick={() => setScore1(i.toString())}
+                  onClick={() => setScore1((10 - i).toString())}
                   className={`px-2 py-2 rounded-md ${
-                    score1 === i.toString()
-                      ? 'bg-green-700 text-white'
-                      : 'bg-gray-100 hover:bg-gray-200'
+                    score1 === (10 - i).toString()
+                      ? "bg-green-700 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                   }`}
                 >
-                  {i}
+                  {10 - i}
                 </button>
               ))}
             </div>
@@ -157,14 +157,14 @@ const ScoreInput: React.FC<ScoreInputProps> = ({ players, onAddMatch }) => {
                 <button
                   key={i}
                   type="button"
-                  onClick={() => setScore2(i.toString())}
+                  onClick={() => setScore2((10 - i).toString())}
                   className={`px-2 py-2 rounded-md ${
-                    score2 === i.toString()
-                      ? 'bg-green-700 text-white'
-                      : 'bg-gray-100 hover:bg-gray-200'
+                    score2 === (10 - i).toString()
+                      ? "bg-green-700 text-white"
+                      : "bg-gray-100 hover:bg-gray-200"
                   }`}
                 >
-                  {i}
+                  {10 - i}
                 </button>
               ))}
             </div>

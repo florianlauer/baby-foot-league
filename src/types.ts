@@ -16,4 +16,5 @@ export interface Match {
   team2: number[];
   score1: number;
   score2: number;
+  created_at: string;
 }
