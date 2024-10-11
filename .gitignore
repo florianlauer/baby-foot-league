@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .env
+
+# devenv
+.devenv.flake.nix
+.devenv
+.direnv
+!.envrc
