@@ -29,7 +29,7 @@ const PlayerSelection: React.FC<PlayerSelectionProps> = ({
           value={newPlayerName}
           onChange={(e) => setNewPlayerName(e.target.value)}
           placeholder="Enter player name"
-          className="flex-grow px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:bg-green-700"
+          className="flex-grow px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2"
         />
         <button
           type="submit"
