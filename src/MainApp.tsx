@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Trophy } from "lucide-react";
 import PlayerRanking from "./components/PlayerRanking";
 import { Player, Match } from "./types";
 import { supabase } from "./supabase";
 import MatchTabContent from "./components/MatchTabContent.tsx";
+import NewHeader from "./components/NewHeader.tsx";
+import { Route, Routes } from "react-router-dom";
 
 function MainApp() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [matches, setMatches] = useState<Match[]>([]);
-  const [activeTab, setActiveTab] = useState<"match" | "ranking">("match");
 
   useEffect(() => {
     fetchPlayers();
@@ -130,60 +130,29 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <header className="text-center mb-8">
-        <div
-          style={{
-            display: "flex",
-            alignItems: "space-between",
-            justifyContent: "end",
-          }}
-        >
-          <h1 className="flex-1 text-4xl font-bold text-green-700 flex items-center justify-center">
-            <Trophy className="mr-2" /> Baby league
-          </h1>
-          <button
-            className="text-sm px-4 py-2 rounded-md  text-white bg-red-700 border-b-green-700 hover:bg-red-800"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
-        </div>
-      </header>
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
-        {/* Onglets */}
-        <div className="mb-4 flex space-x-4">
-          <button
-            onClick={() => setActiveTab("match")}
-            className={`px-4 py-2 rounded-md ${
-              activeTab === "match" ? "bg-green-700 text-white" : "bg-gray-200"
-            }`}
-          >
-            Add a match
-          </button>
-          <button
-            onClick={() => setActiveTab("ranking")}
-            className={`px-4 py-2 rounded-md ${
-              activeTab === "ranking"
-                ? "bg-green-700 text-white"
-                : "bg-gray-200"
-            }`}
-          >
-            Leaderboard
-          </button>
-        </div>
-        {activeTab === "match" ? (
-          <MatchTabContent
-            players={players}
-            matches={matches}
-            onAddMatch={addMatch}
-            onDeleteMatch={deleteMatch}
-            onAddPlayer={addPlayer}
-            onResetData={resetData}
+    <div className="min-h-screen bg-gray-100">
+      <NewHeader onLogout={handleLogout} />
+
+      <div className="max-w-4xl mt-8 mx-auto bg-white rounded-lg shadow-md p-6">
+        <Routes>
+          <Route
+            path="/matches"
+            element={
+              <MatchTabContent
+                players={players}
+                matches={matches}
+                onAddMatch={addMatch}
+                onDeleteMatch={deleteMatch}
+                onAddPlayer={addPlayer}
+                onResetData={resetData}
+              />
+            }
           />
-        ) : (
-          <PlayerRanking players={players} />
-        )}
+          <Route
+            path="/leaderboard"
+            element={<PlayerRanking players={players} />}
+          />
+        </Routes>
       </div>
     </div>
   );
