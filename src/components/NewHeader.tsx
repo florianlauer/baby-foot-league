@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Trophy } from "lucide-react";
+import { LogOut, Trophy } from "lucide-react";
 
 const NewHeader = ({ onLogout }: { onLogout: VoidFunction }) => {
   return (
@@ -13,11 +13,6 @@ const NewHeader = ({ onLogout }: { onLogout: VoidFunction }) => {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link to="/" className="hover:text-green-200">
-                Home
-              </Link>
-            </li>
-            <li>
               <Link to="/leaderboard" className="hover:text-green-200">
                 Leaderboard
               </Link>
@@ -29,7 +24,18 @@ const NewHeader = ({ onLogout }: { onLogout: VoidFunction }) => {
             </li>
             <li>
               <Link to={""} onClick={onLogout} className="hover:text-green-200">
-                Logout
+                <p
+                  style={{
+                    display: "flex",
+                    gap: "4px",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  Logout
+                  <LogOut size={16} />
+                </p>
               </Link>
             </li>
           </ul>

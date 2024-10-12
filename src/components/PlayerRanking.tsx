@@ -1,4 +1,5 @@
 import { useAppContext } from "../AppContext.tsx";
+import { calculatePlayerWinRate } from "../helpers/utils.ts";
 
 const PlayerRanking = () => {
   const { players } = useAppContext();
@@ -21,28 +22,37 @@ const PlayerRanking = () => {
               <th className="px-4 py-2 text-left">GF</th>
               <th className="px-4 py-2 text-left">GA</th>
               <th className="px-4 py-2 text-left">GD</th>
+              <th className="px-4 py-2 text-left">Winrate</th>
             </tr>
           </thead>
           <tbody>
-            {sortedPlayers.map((player, index) => (
-              <tr
-                key={player.id}
-                className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-              >
-                <td className="px-4 py-2">{index + 1}</td>
-                <td className="px-4 py-2">{player.name}</td>
-                <td className="px-4 py-2">{player.score}</td>
-                <td className="px-4 py-2">{player.matchesPlayed}</td>
-                <td className="px-4 py-2">{player.wins}</td>
-                <td className="px-4 py-2">{player.draws}</td>
-                <td className="px-4 py-2">{player.losses}</td>
-                <td className="px-4 py-2">{player.goalsFor}</td>
-                <td className="px-4 py-2">{player.goalsAgainst}</td>
-                <td className="px-4 py-2">
-                  {player.goalsFor - player.goalsAgainst}
-                </td>
-              </tr>
-            ))}
+            {sortedPlayers.map((player, index) => {
+              const winRate = calculatePlayerWinRate(player);
+
+              return (
+                <tr
+                  key={player.id}
+                  className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                >
+                  <td className="px-4 py-2">{index + 1}</td>
+                  <td className="px-4 py-2">{player.name}</td>
+                  <td className="px-4 py-2">{player.score}</td>
+                  <td className="px-4 py-2">{player.matchesPlayed}</td>
+                  <td className="px-4 py-2">{player.wins}</td>
+                  <td className="px-4 py-2">{player.draws}</td>
+                  <td className="px-4 py-2">{player.losses}</td>
+                  <td className="px-4 py-2">{player.goalsFor}</td>
+                  <td className="px-4 py-2">{player.goalsAgainst}</td>
+                  <td className="px-4 py-2">
+                    {player.goalsFor - player.goalsAgainst}
+                  </td>
+                  <td className="px-4 py-2">
+                    {winRate}
+                    {"%"}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
