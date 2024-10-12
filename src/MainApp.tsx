@@ -132,10 +132,23 @@ function MainApp() {
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-green-700 flex items-center justify-center">
-          <Trophy className="mr-2" /> Baby league
-        </h1>
-        <button onClick={handleLogout}>Logout</button>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "space-between",
+            justifyContent: "end",
+          }}
+        >
+          <h1 className="flex-1 text-4xl font-bold text-green-700 flex items-center justify-center">
+            <Trophy className="mr-2" /> Baby league
+          </h1>
+          <button
+            className="text-sm px-4 py-2 rounded-md  text-white bg-red-700 border-b-green-700 hover:bg-red-800"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
       </header>
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
         {/* Onglets */}
