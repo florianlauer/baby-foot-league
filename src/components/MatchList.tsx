@@ -1,18 +1,12 @@
 import { Trash } from "lucide-react";
-import { Match, Player } from "../types.ts";
+import { Match } from "../types.ts";
 import { DateTime } from "luxon";
 import { useAuth } from "../useAuth.ts";
+import { useAppContext } from "../AppContext.tsx";
 
-const MatchList = ({
-  players,
-  matches,
-  onDeleteMatch,
-}: {
-  players: Player[];
-  matches: Match[];
-  onDeleteMatch: (matchId: number) => void;
-}) => {
+const MatchList = () => {
   const { userRole } = useAuth();
+  const { players, matches, deleteMatch } = useAppContext();
   // Grouper les matchs par date
   const matchesByDate = matches.reduce(
     (acc: { [key: string]: Match[] }, match) => {
@@ -36,7 +30,7 @@ const MatchList = ({
         {Object.keys(matchesByDate).map((date) => (
           <div key={date}>
             {/* Afficher la date */}
-            <div className="text-ll font-bold text-gray-600 mb-3 text-center">
+            <div className="text-ll font-bold text-gray-600 mb-3 mt-3 text-center">
               {date}
             </div>
             <div className="flex flex-col space-y-4">
@@ -97,7 +91,7 @@ const MatchList = ({
                     {userRole?.isAdmin ? (
                       <button
                         className="ml-4 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
-                        onClick={() => onDeleteMatch(match.id)}
+                        onClick={() => deleteMatch(match.id)}
                       >
                         <Trash size={16} />
                       </button>

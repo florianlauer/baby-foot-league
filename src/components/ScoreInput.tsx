@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { Player, Match } from "../types";
+import { Match } from "../types";
+import { useAppContext } from "../AppContext.tsx";
 
-interface ScoreInputProps {
-  players: Player[];
-  onAddMatch: (match: Match) => void;
-}
-
-const ScoreInput: React.FC<ScoreInputProps> = ({ players, onAddMatch }) => {
+const ScoreInput = () => {
+  const { players, addMatch } = useAppContext();
   const [team1Player1, setTeam1Player1] = useState<number | "">("");
   const [team1Player2, setTeam1Player2] = useState<number | "">("");
   const [team2Player1, setTeam2Player1] = useState<number | "">("");
@@ -28,8 +25,9 @@ const ScoreInput: React.FC<ScoreInputProps> = ({ players, onAddMatch }) => {
         team2: [team2Player1, team2Player2],
         score1: parseInt(score1) || 0,
         score2: parseInt(score2) || 0,
+        created_at: new Date().toISOString(),
       };
-      onAddMatch(newMatch);
+      addMatch(newMatch);
       setTeam1Player1("");
       setTeam1Player2("");
       setTeam2Player1("");

@@ -1,22 +1,15 @@
-import React, { useState } from 'react';
-import { Player } from '../types';
+import React, { useState } from "react";
+import { useAppContext } from "../AppContext.tsx";
 
-interface PlayerSelectionProps {
-  players: Player[];
-  onAddPlayer: (name: string) => void;
-}
-
-const PlayerSelection: React.FC<PlayerSelectionProps> = ({
-  players,
-  onAddPlayer,
-}) => {
-  const [newPlayerName, setNewPlayerName] = useState('');
+const PlayerSelection = () => {
+  const { players, addPlayer } = useAppContext();
+  const [newPlayerName, setNewPlayerName] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newPlayerName.trim()) {
-      onAddPlayer(newPlayerName.trim());
-      setNewPlayerName('');
+      addPlayer(newPlayerName.trim());
+      setNewPlayerName("");
     }
   };
 

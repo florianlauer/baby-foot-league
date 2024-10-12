@@ -13,7 +13,7 @@ function App() {
     // Vérifie si une session active existe
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
-      console.log(data.session);
+
       if (data.session) {
         setIsLoggedIn(true);
       } else {
@@ -36,8 +36,6 @@ function App() {
       subscription?.unsubscribe();
     };
   }, []);
-
-  console.log(isLoggedIn);
 
   // Si le chargement est en cours, ne pas rediriger
   if (loading) {

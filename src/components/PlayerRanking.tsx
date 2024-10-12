@@ -1,11 +1,7 @@
-import React from 'react';
-import { Player } from '../types';
+import { useAppContext } from "../AppContext.tsx";
 
-interface PlayerRankingProps {
-  players: Player[];
-}
-
-const PlayerRanking: React.FC<PlayerRankingProps> = ({ players }) => {
+const PlayerRanking = () => {
+  const { players } = useAppContext();
   const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
 
   return (
@@ -29,7 +25,10 @@ const PlayerRanking: React.FC<PlayerRankingProps> = ({ players }) => {
           </thead>
           <tbody>
             {sortedPlayers.map((player, index) => (
-              <tr key={player.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+              <tr
+                key={player.id}
+                className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+              >
                 <td className="px-4 py-2">{index + 1}</td>
                 <td className="px-4 py-2">{player.name}</td>
                 <td className="px-4 py-2">{player.score}</td>
@@ -39,7 +38,9 @@ const PlayerRanking: React.FC<PlayerRankingProps> = ({ players }) => {
                 <td className="px-4 py-2">{player.losses}</td>
                 <td className="px-4 py-2">{player.goalsFor}</td>
                 <td className="px-4 py-2">{player.goalsAgainst}</td>
-                <td className="px-4 py-2">{player.goalsFor - player.goalsAgainst}</td>
+                <td className="px-4 py-2">
+                  {player.goalsFor - player.goalsAgainst}
+                </td>
               </tr>
             ))}
           </tbody>
