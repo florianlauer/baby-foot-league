@@ -57,10 +57,6 @@ const Rankings = () => {
     }
   }, [players, matches]); // Déclencher l'effet lorsqu'il y a des changements dans players ou matches
 
-  if (players.length === 0 || matches.length === 0) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Rankings 🏆</h1>
