@@ -19,7 +19,7 @@ function MainApp() {
         <div className="max-w-4xl mt-8 mx-auto bg-white rounded-lg shadow-md p-6">
           <Routes>
             <Route path="/matches" element={<MatchTabContent />} />
-            <Route path="/leaderboard" element={<PlayerRanking />} />
+            <Route path="/rankings" element={<PlayerRanking />} />
           </Routes>
         </div>
       </div>
