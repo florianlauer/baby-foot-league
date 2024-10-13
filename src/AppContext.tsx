@@ -10,6 +10,8 @@ type AppContextValues = {
   addPlayer: (name: string) => void;
   addMatch: (match: Match) => void;
   deleteMatch: (matchId: number) => void;
+  deletePlayer: (playerId: number) => void;
+  deleteAllMatches: () => void;
   resetData: () => void;
 };
 
@@ -19,6 +21,8 @@ const appContextDefaultValue: AppContextValues = {
   addPlayer: () => {},
   addMatch: () => {},
   deleteMatch: () => {},
+  deletePlayer: () => {},
+  deleteAllMatches: () => {},
   resetData: () => {},
 };
 
@@ -76,37 +80,34 @@ export const AppProvider: React.FC<{
   };
 
   const updatePlayerStats = async (match: Match) => {
+    // Extraire les joueurs des équipes
+    const team1Players = match.team1;
+    const team2Players = match.team2;
+    const allPlayersInMatch = [...team1Players, ...team2Players];
+
+    // Mettre à jour les statistiques de chaque joueur impliqué dans le match
     const updatedPlayers = players.map((player) => {
-      const updatedPlayer = { ...player };
-      if (match.team1.includes(player.id) || match.team2.includes(player.id)) {
-        updatedPlayer.matchesPlayed++;
-        if (match.team1.includes(player.id)) {
-          updatedPlayer.goalsFor += match.score1;
-          updatedPlayer.goalsAgainst += match.score2;
-          if (match.score1 > match.score2) {
-            updatedPlayer.wins++;
-            updatedPlayer.score += 3;
-          } else if (match.score1 < match.score2) {
-            updatedPlayer.losses++;
-          } else {
-            updatedPlayer.draws++;
-            updatedPlayer.score += 1;
-          }
-        } else {
-          updatedPlayer.goalsFor += match.score2;
-          updatedPlayer.goalsAgainst += match.score1;
-          if (match.score2 > match.score1) {
-            updatedPlayer.wins++;
-            updatedPlayer.score += 3;
-          } else if (match.score2 < match.score1) {
-            updatedPlayer.losses++;
-          } else {
-            updatedPlayer.draws++;
-            updatedPlayer.score += 1;
-          }
-        }
+      if (allPlayersInMatch.includes(player.id)) {
+        const isInTeam1 = team1Players.includes(player.id);
+        const goalsFor = isInTeam1 ? match.score1 : match.score2;
+        const goalsAgainst = isInTeam1 ? match.score2 : match.score1;
+        const isWin = goalsFor > goalsAgainst;
+        const isDraw = goalsFor === goalsAgainst;
+        const isLoss = goalsFor < goalsAgainst;
+
+        // Calculer les nouvelles statistiques du joueur
+        return {
+          ...player,
+          matchesPlayed: player.matchesPlayed + 1,
+          goalsFor: player.goalsFor + goalsFor,
+          goalsAgainst: player.goalsAgainst + goalsAgainst,
+          wins: player.wins + (isWin ? 1 : 0),
+          draws: player.draws + (isDraw ? 1 : 0),
+          losses: player.losses + (isLoss ? 1 : 0),
+          score: player.score + (isWin ? 3 : isDraw ? 1 : 0), // 3 points pour une victoire, 1 pour un nul
+        };
       }
-      return updatedPlayer;
+      return player;
     });
 
     for (const player of updatedPlayers) {
@@ -120,12 +121,33 @@ export const AppProvider: React.FC<{
     setPlayers(updatedPlayers);
   };
 
+  const deletePlayer = async (playerId: number) => {
+    const { error } = await supabase
+      .from("players")
+      .delete()
+      .eq("id", playerId);
+    if (error) {
+      console.error("Error deleting player:", error);
+    } else {
+      setPlayers((prev) => prev.filter((player) => player.id !== playerId));
+    }
+  };
+
   const deleteMatch = async (matchId: number) => {
     const { error } = await supabase.from("matches").delete().eq("id", matchId);
     if (error) {
       console.error("Error deleting match:", error);
     } else {
       setMatches((prev) => prev.filter((match) => match.id !== matchId));
+    }
+  };
+
+  const deleteAllMatches = async () => {
+    const { error } = await supabase.from("matches").delete();
+    if (error) {
+      console.error("Error deleting all matches:", error);
+    } else {
+      setMatches([]);
     }
   };
 
@@ -152,6 +174,8 @@ export const AppProvider: React.FC<{
         addPlayer,
         addMatch,
         deleteMatch,
+        deletePlayer,
+        deleteAllMatches,
         resetData,
       }}
     >

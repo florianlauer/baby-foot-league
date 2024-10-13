@@ -1,13 +1,13 @@
 export interface Player {
   id: number;
   name: string;
-  // score: number;
-  // matchesPlayed: number;
-  // wins: number;
-  // draws: number;
-  // losses: number;
-  // goalsFor: number;
-  // goalsAgainst: number;
+  score: number;
+  matchesPlayed: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  goalsFor: number;
+  goalsAgainst: number;
 }
 
 export interface Match {
@@ -32,3 +32,17 @@ export interface PlayerStats {
   goal_difference: number;
   win_rate: number;
 }
+
+export const mapPlayerStatsToPlayer = (stats: PlayerStats): Player => {
+  return {
+    id: stats.id,
+    name: stats.name,
+    score: stats.score,
+    matchesPlayed: stats.matches_played,
+    wins: stats.wins,
+    draws: stats.draws,
+    losses: stats.losses,
+    goalsFor: stats.goals_for,
+    goalsAgainst: stats.goals_against,
+  };
+};

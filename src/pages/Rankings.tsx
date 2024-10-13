@@ -4,7 +4,7 @@ import { PlayerStats } from "../types.ts";
 import { calculatePlayerStats } from "../helpers/statsCalculator.ts";
 import { Link } from "react-router-dom";
 
-const PlayerRanking = () => {
+const Rankings = () => {
   const { players, matches } = useAppContext();
   const [rankings, setRankings] = useState<PlayerStats[]>(
     calculatePlayerStats(players, matches)
@@ -142,4 +142,4 @@ const PlayerRanking = () => {
   );
 };
 
-export default PlayerRanking;
+export default Rankings;

@@ -8,6 +8,7 @@ const MatchList = () => {
   const { userRole } = useAuth();
   const { players, matches, deleteMatch } = useAppContext();
   // Grouper les matchs par date
+
   const matchesByDate = matches.reduce(
     (acc: { [key: string]: Match[] }, match) => {
       const matchDate = DateTime.fromISO(match.created_at).toFormat(
@@ -22,16 +23,43 @@ const MatchList = () => {
     {}
   );
 
+  // Trier les dates des plus récentes aux plus anciennes
+  const sortedDates = Object.keys(matchesByDate).sort((a, b) => {
+    // Comparaison des dates en format "dd/MM/yyyy" avec Luxon
+    return (
+      DateTime.fromFormat(b, "dd/MM/yyyy").toMillis() -
+      DateTime.fromFormat(a, "dd/MM/yyyy").toMillis()
+    );
+  });
+
+  // Fonction pour afficher "Aujourd'hui", "Hier" ou la date formatée
+  const formatDateLabel = (dateString: string) => {
+    const date = DateTime.fromFormat(dateString, "dd/MM/yyyy");
+    const today = DateTime.now();
+    const yesterday = today.minus({ days: 1 });
+
+    if (date.hasSame(today, "day")) {
+      return "Today";
+    } else if (date.hasSame(yesterday, "day")) {
+      return "Yesterday";
+    } else {
+      return dateString; // Afficher la date formatée
+    }
+  };
+
   return (
     <div className="mt-8">
       <h2 className="text-2xl font-semibold mb-4">Matches ⚽</h2>
-      <ul className="bg-white rounded-md shadow-md p-4">
+      <ul className="bg-white rounded-md shadow-md">
         {/* Parcourir les dates et afficher les matchs du jour */}
-        {Object.keys(matchesByDate).map((date) => (
-          <div key={date}>
+        {sortedDates.map((date, index) => (
+          <div
+            key={date}
+            className={`p-4 ${index % 2 === 0 ? "bg-gray-100" : "bg-gray-200"}`} // Alternance de fond
+          >
             {/* Afficher la date */}
             <div className="text-ll font-bold text-gray-600 mb-3 mt-3 text-center">
-              🗓️ {date}
+              🗓️ {formatDateLabel(date)}
             </div>
             <div className="flex flex-col space-y-4">
               {matchesByDate[date].map((match) => {
@@ -49,11 +77,12 @@ const MatchList = () => {
                         return (
                           <span
                             key={playerId}
-                            className={`max-w-[100px] overflow-hidden text-ellipsis ${
-                              index > 0 ? "ml-2" : ""
-                            }`}
+                            className={`max-w-[100px] overflow-hidden text-ellipsis`}
                           >
                             {player?.name}
+                            {index < match.team1.length - 1 && (
+                              <span className="mx-1">&</span>
+                            )}
                           </span>
                         );
                       })}
@@ -79,11 +108,12 @@ const MatchList = () => {
                         return (
                           <span
                             key={playerId}
-                            className={`max-w-[100px] overflow-hidden text-ellipsis ${
-                              index > 0 ? "ml-2" : ""
-                            }`}
+                            className={`max-w-[100px] overflow-hidden text-ellipsis`}
                           >
                             {player?.name}
+                            {index < match.team2.length - 1 && (
+                              <span className="mx-1">&</span>
+                            )}
                           </span>
                         );
                       })}

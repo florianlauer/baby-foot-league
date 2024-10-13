@@ -1,10 +1,11 @@
 import React from "react";
-import PlayerRanking from "./components/PlayerRanking";
+import Rankings from "./pages/Rankings.tsx";
 import { supabase } from "./supabase";
-import MatchTabContent from "./components/MatchTabContent.tsx";
+import Matches from "./pages/Matches.tsx";
 import NewHeader from "./components/NewHeader.tsx";
 import { Route, Routes } from "react-router-dom";
 import { AppProvider } from "./AppContext.tsx";
+import Players from "./pages/Players.tsx";
 
 function MainApp() {
   const handleLogout = async () => {
@@ -18,8 +19,10 @@ function MainApp() {
 
         <div className="max-w-4xl mt-8 mx-auto bg-white rounded-lg shadow-md p-6">
           <Routes>
-            <Route path="/matches" element={<MatchTabContent />} />
-            <Route path="/rankings" element={<PlayerRanking />} />
+            <Route path="/matches" element={<Matches />} />
+            <Route path="/rankings" element={<Rankings />} />
+            <Route path="/players" element={<Players />} />
+            {/*<Route path="/players/:id" element={<PlayerDetails />} />*/}
           </Routes>
         </div>
       </div>

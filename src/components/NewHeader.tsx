@@ -13,7 +13,10 @@ const NewHeader = ({ onLogout }: { onLogout: VoidFunction }) => {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link to="/" className="flex items-center hover:text-green-200">
+              <Link
+                to="/players"
+                className="flex items-center hover:text-green-200"
+              >
                 <Users className="mr-1" /> Players
               </Link>
             </li>
