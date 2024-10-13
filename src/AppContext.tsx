@@ -143,7 +143,7 @@ export const AppProvider: React.FC<{
   };
 
   const deleteAllMatches = async () => {
-    const { error } = await supabase.from("matches").delete();
+    const { error } = await supabase.from("matches").delete().neq("id", 0);
     if (error) {
       console.error("Error deleting all matches:", error);
     } else {
