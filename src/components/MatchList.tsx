@@ -1,4 +1,4 @@
-import { Trash } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Match } from "../types.ts";
 import { DateTime } from "luxon";
 import { useAuth } from "../useAuth.ts";
@@ -24,14 +24,14 @@ const MatchList = () => {
 
   return (
     <div className="mt-8">
-      <h2 className="text-2xl font-semibold mb-4">Match history</h2>
+      <h2 className="text-2xl font-semibold mb-4">Matches ⚽</h2>
       <ul className="bg-white rounded-md shadow-md p-4">
         {/* Parcourir les dates et afficher les matchs du jour */}
         {Object.keys(matchesByDate).map((date) => (
           <div key={date}>
             {/* Afficher la date */}
             <div className="text-ll font-bold text-gray-600 mb-3 mt-3 text-center">
-              {date}
+              🗓️ {date}
             </div>
             <div className="flex flex-col space-y-4">
               {matchesByDate[date].map((match) => {
@@ -90,10 +90,10 @@ const MatchList = () => {
                     </div>
                     {userRole?.isAdmin ? (
                       <button
-                        className="ml-4 px-2 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+                        className="ml-4 text-red-500 hover:text-red-700"
                         onClick={() => deleteMatch(match.id)}
                       >
-                        <Trash size={16} />
+                        <Trash2 size={16} />
                       </button>
                     ) : null}
                   </div>

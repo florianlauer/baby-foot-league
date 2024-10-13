@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { LogOut, Trophy } from "lucide-react";
+import { List, LogOut, Trophy, Users } from "lucide-react";
 
 const NewHeader = ({ onLogout }: { onLogout: VoidFunction }) => {
   return (
@@ -13,29 +13,34 @@ const NewHeader = ({ onLogout }: { onLogout: VoidFunction }) => {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link to="/leaderboard" className="hover:text-green-200">
-                Leaderboard
+              <Link to="/" className="flex items-center hover:text-green-200">
+                <Users className="mr-1" /> Players
               </Link>
             </li>
             <li>
-              <Link to="/matches" className="hover:text-green-200">
-                Matches
+              <Link
+                to="/matches"
+                className="flex items-center hover:text-green-200"
+              >
+                <List className="mr-1" /> Matches
               </Link>
             </li>
             <li>
-              <Link to={""} onClick={onLogout} className="hover:text-green-200">
-                <p
-                  style={{
-                    display: "flex",
-                    gap: "4px",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  Logout
-                  <LogOut size={16} />
-                </p>
+              <Link
+                to="/rankings"
+                className="flex items-center hover:text-green-200"
+              >
+                <Trophy className="mr-1" /> Rankings
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={""}
+                onClick={onLogout}
+                className="flex items-center hover:text-green-200"
+              >
+                <LogOut className="mr-1" />
+                Logout
               </Link>
             </li>
           </ul>
