@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import { AppProvider } from "./AppContext.tsx";
 import Players from "./pages/Players.tsx";
 import Footer from "./components/Footer.tsx";
+import PlayerDetails from "./pages/PlayerDetails.tsx";
 
 function MainApp() {
   const handleLogout = async () => {
@@ -27,7 +28,7 @@ function MainApp() {
             <Route path="/matches" element={<Matches />} />
             <Route path="/rankings" element={<Rankings />} />
             <Route path="/players" element={<Players />} />
-            {/*<Route path="/players/:id" element={<PlayerDetails />} />*/}
+            <Route path="/players/:id" element={<PlayerDetails />} />
           </Routes>
         </div>
 
