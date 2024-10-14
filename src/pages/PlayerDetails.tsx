@@ -87,7 +87,7 @@ const PlayerDetails: React.FC = () => {
           </div>
           <div>
             <h2 className="text-xl font-semibold mb-4">
-              Matchups 🤼 (/winrate)
+              Matchups 🤼 <span className="text-xs">(/winrate)</span>
             </h2>
             <ul className="space-y-2 text-gray-700">
               <li>
@@ -115,7 +115,7 @@ const PlayerDetails: React.FC = () => {
         </div>
         <div>
           <h2 className="text-xl font-semibold mb-4">
-            Partner Stats 🤝 (/matchs number)
+            Partner Stats 🤝 <span className="text-xs">(/matchs number)</span>
           </h2>
           <ul className="space-y-2 text-gray-700">
             <li>

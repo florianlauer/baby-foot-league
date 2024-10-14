@@ -153,8 +153,6 @@ export function getNemesisAndBestMatchup(
     const totalGames = record.wins + record.losses;
     const opponentName = players.find((p) => p.id === Number(opponent))?.name;
 
-    console.log(opponentName, record.wins, record.losses); // Debug: Afficher les résultats calculés
-
     if (totalGames > 0) {
       const winRate = record.wins / totalGames;
 
@@ -224,25 +222,17 @@ export function getPlayerPartnersStats(
     let isWin = false;
     let isDraw = false;
 
-    if (match.team1[0] === player.id) {
-      partner = match.team1[1];
+    if (match.team1.includes(player.id)) {
+      partner = match.team1.find((p) => p !== player.id) || null;
       isWin = match.score1 > match.score2;
       isDraw = match.score1 === match.score2;
-    } else if (match.team1[1] === player.id) {
-      partner = match.team1[0];
-      isWin = match.score1 > match.score2;
-      isDraw = match.score1 === match.score2;
-    } else if (match.team2[0] === player.id) {
-      partner = match.team2[1];
-      isWin = match.score2 > match.score1; // Corrigé
-      isDraw = match.score1 === match.score2;
-    } else if (match.team2[1] === player.id) {
-      partner = match.team2[0];
-      isWin = match.score2 > match.score1; // Corrigé
+    } else if (match.team2.includes(player.id)) {
+      partner = match.team2.find((p) => p !== player.id) || null;
+      isWin = match.score2 > match.score1;
       isDraw = match.score1 === match.score2;
     }
 
-    if (partner) {
+    if (partner !== null) {
       if (!partnerStats[partner]) {
         partnerStats[partner] = { matches: 0, wins: 0, losses: 0, draws: 0 };
       }
@@ -278,14 +268,17 @@ export function getPlayerPartnersStats(
     const partnerName = partnerPlayer ? partnerPlayer.name : "Unknown";
     const winRate = stats.wins / stats.matches;
 
+    // Vérifier si c'est le partenaire avec qui le joueur a joué le plus de matchs
     if (!mostPlayedPartner || stats.matches > mostPlayedPartner.matches) {
       mostPlayedPartner = { name: partnerName, matches: stats.matches };
     }
 
+    // Vérifier si c'est le meilleur partenaire (meilleur taux de victoire)
     if (!bestPartner || winRate > bestPartner.winRate) {
       bestPartner = { name: partnerName, ...stats, winRate };
     }
 
+    // Vérifier si c'est le pire partenaire (pire taux de victoire)
     if (!worstPartner || winRate < worstPartner.winRate) {
       worstPartner = { name: partnerName, ...stats, winRate };
     }
